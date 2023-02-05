@@ -4,6 +4,7 @@ import com.workvaluation.workvaluation.project.repository.ProjectRepository;
 import com.workvaluation.workvaluation.project.domain.ProjectEntity;
 import com.workvaluation.workvaluation.project.dto.ProjectDTO;
 import com.workvaluation.workvaluation.project.mapper.ProjectMapper;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +28,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public ProjectDTO findProject(Long id) {
+    public ProjectDTO findProject(final Long id) {
         log.info("Find project: {}", id);
         return projectRepository.findById(id)
                 .map(projectMapper::mapToProjectDTO)
@@ -35,19 +36,22 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public ProjectEntity addProject(ProjectDTO projectDTO) {
+    @Transactional
+    public ProjectEntity addProject(final ProjectDTO projectDTO) {
         log.info("Add new project to database: {}", projectDTO);
         return projectRepository.save(projectMapper.mapToProject(projectDTO));
     }
 
     @Override
-    public ProjectEntity updateProject(ProjectDTO projectDTO, Long id) {
+    @Transactional
+    public ProjectEntity updateProject(final ProjectDTO projectDTO, final Long id) {
         log.info("Update project: {}", id);
         return null;
     }
 
     @Override
-    public void deleteProject(Long id) {
+    @Transactional
+    public void deleteProject(final Long id) {
         log.info("Delete project: {}", id);
         projectRepository.delete(projectRepository.findById(id).orElseThrow(RuntimeException::new));
     }

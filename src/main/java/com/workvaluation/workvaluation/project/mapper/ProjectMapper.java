@@ -9,26 +9,21 @@ import java.util.stream.Collectors;
 
 @Component
 public class ProjectMapper {
-    private final CustomerMapper customerMapper;
-
-    public ProjectMapper(CustomerMapper customerMapper) {
-        this.customerMapper = customerMapper;
-    }
-
-    public List<ProjectDTO> mapToProjectDTOList(List<ProjectEntity> projectList) {
+    public List<ProjectDTO> mapToProjectDTOList(final List<ProjectEntity> projectList) {
         return projectList.stream()
                 .map(project -> new ProjectDTO(
                         project.getId(),
                         project.getName(),
-                        customerMapper.mapToCustomerDTO(project.getCustomer())))
+                        project.getAddress(),
+                        project.getCreateDate()))
                 .collect(Collectors.toList());
     }
 
-    public ProjectDTO mapToProjectDTO(ProjectEntity project) {
-        return new ProjectDTO(project.getId(), project.getName(), customerMapper.mapToCustomerDTO(project.getCustomer()));
+    public ProjectDTO mapToProjectDTO(final ProjectEntity project) {
+        return new ProjectDTO(project.getId(), project.getName(), project.getAddress(), project.getCreateDate());
     }
 
-    public ProjectEntity mapToProject(ProjectDTO projectDTO) {
-        return new ProjectEntity(projectDTO.getName(), customerMapper.mapToCustomer(projectDTO.getCustomerDTO()));
+    public ProjectEntity mapToProject(final ProjectDTO projectDTO) {
+        return new ProjectEntity(projectDTO.getName(), projectDTO.getAddress());
     }
 }

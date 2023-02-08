@@ -19,14 +19,7 @@ public class ProjectEntity {
     private String address;
     private Date createDate;
 
-    public ProjectEntity(Long id, String name, String address) {
-        this.id = id;
-        this.name = name;
-        this.createDate = new Date();
-        this.address = address;
-    }
-
-    public ProjectEntity(String name, String address) {
+    public ProjectEntity(final String name, final String address) {
         this.name = name;
         this.createDate = new Date();
         this.address = address;

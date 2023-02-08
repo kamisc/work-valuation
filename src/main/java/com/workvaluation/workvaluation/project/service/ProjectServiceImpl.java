@@ -1,5 +1,6 @@
 package com.workvaluation.workvaluation.project.service;
 
+import com.github.fge.jsonpatch.JsonPatch;
 import com.workvaluation.workvaluation.project.repository.ProjectRepository;
 import com.workvaluation.workvaluation.project.domain.ProjectEntity;
 import com.workvaluation.workvaluation.project.dto.ProjectDTO;
@@ -47,6 +48,11 @@ public class ProjectServiceImpl implements ProjectService {
     public ProjectEntity updateProject(final ProjectDTO projectDTO, final Long id) {
         log.info("Update project: {}", id);
         return null;
+    }
+
+    @Override
+    public void partialUpdateProject(JsonPatch patch, Long id) {
+
     }
 
     @Override

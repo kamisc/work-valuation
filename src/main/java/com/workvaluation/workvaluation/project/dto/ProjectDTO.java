@@ -13,7 +13,7 @@ public class ProjectDTO {
     private String address;
     private Date createDate;
 
-    public ProjectDTO(Long id, String name, String address, Date createDate) {
+    public ProjectDTO(final Long id, final String name, final String address, final Date createDate) {
         this.id = id;
         this.name = name;
         this.address = address;

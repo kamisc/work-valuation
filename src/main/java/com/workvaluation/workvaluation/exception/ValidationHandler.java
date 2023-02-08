@@ -1,15 +1,12 @@
 package com.workvaluation.workvaluation.exception;
 
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolationException;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -25,11 +22,9 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import java.nio.file.AccessDeniedException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 
 @ControllerAdvice
-@Slf4j
 public class ValidationHandler extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
@@ -114,14 +109,14 @@ public class ValidationHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<Object> resourceNotFoundException(final ResourceNotFoundException ex) {
+    public ResponseEntity<ApiError> resourceNotFoundException(final ResourceNotFoundException ex) {
         final ApiError apiError = new ApiError(HttpStatus.NOT_FOUND, ex.getLocalizedMessage());
 
         return new ResponseEntity<>(apiError, apiError.getStatus());
     }
 
     @ExceptionHandler(ResourceAlreadyExistException.class)
-    public ResponseEntity<Object> resourceAlreadyExistException(final ResourceAlreadyExistException ex) {
+    public ResponseEntity<ApiError> resourceAlreadyExistException(final ResourceAlreadyExistException ex) {
         final ApiError apiError = new ApiError(HttpStatus.CONFLICT, ex.getLocalizedMessage());
 
         return new ResponseEntity<>(apiError, apiError.getStatus());
@@ -155,8 +150,6 @@ public class ValidationHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiError> handleAll(final Exception ex, final WebRequest request) {
-//        LOG.error("Error", ex);
-
         final ApiError apiError = new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, "Internal ERROR",
                 "The system is unable to complete the request. Contact with admin of application.");
         return new ResponseEntity<>(apiError, apiError.getStatus());

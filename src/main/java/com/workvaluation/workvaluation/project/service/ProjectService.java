@@ -18,7 +18,7 @@ public interface ProjectService {
 
     ProjectEntity updateProject(ProjectDTO projectDTO, Long id) throws ResourceNotFoundException;
 
-    void partialUpdateProject(JsonPatch patch, Long id) throws ResourceNotFoundException, JsonPatchException, JsonProcessingException;
+    ProjectEntity partialUpdateProject(JsonPatch patch, Long id) throws ResourceNotFoundException, JsonPatchException, JsonProcessingException;
 
     void deleteProject(Long id);
 }

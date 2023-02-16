@@ -66,7 +66,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     @Transactional
-    public void partialUpdateProject(JsonPatch patch, Long id) throws ResourceNotFoundException, JsonPatchException, JsonProcessingException {
+    public ProjectEntity partialUpdateProject(JsonPatch patch, Long id) throws ResourceNotFoundException, JsonPatchException, JsonProcessingException {
         log.info("Partial update project: {}", id);
         ProjectEntity oldProject = projectRepository.findById(id).orElseThrow(ResourceNotFoundException::new);
         ProjectDTO projectDTO = projectMapper.mapToProjectDTO(oldProject);
@@ -75,7 +75,7 @@ public class ProjectServiceImpl implements ProjectService {
         JsonNode patchedProject = patch.apply(objectMapper.convertValue(projectDTO, JsonNode.class));
         projectDTO = objectMapper.treeToValue(patchedProject, ProjectDTO.class);
 
-        projectRepository.save(projectMapper.mapToProject(projectDTO));
+        return projectRepository.save(projectMapper.mapToProject(projectDTO));
     }
 
     @Override

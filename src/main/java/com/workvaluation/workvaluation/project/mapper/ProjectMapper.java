@@ -5,7 +5,8 @@ import com.workvaluation.workvaluation.project.dto.ProjectDTO;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 @Component
 public class ProjectMapper {
@@ -16,7 +17,7 @@ public class ProjectMapper {
                         project.getName(),
                         project.getAddress(),
                         project.getCreateDate()))
-                .collect(Collectors.toList());
+                .collect(toList());
     }
 
     public ProjectDTO mapToProjectDTO(final ProjectEntity project) {
@@ -24,6 +25,6 @@ public class ProjectMapper {
     }
 
     public ProjectEntity mapToProject(final ProjectDTO projectDTO) {
-        return new ProjectEntity(projectDTO.getName(), projectDTO.getAddress());
+        return new ProjectEntity(projectDTO.getName(), projectDTO.getAddress(), projectDTO.getId());
     }
 }

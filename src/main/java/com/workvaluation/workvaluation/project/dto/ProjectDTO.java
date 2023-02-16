@@ -2,12 +2,13 @@ package com.workvaluation.workvaluation.project.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.util.Date;
 
 @Data
 @NoArgsConstructor
-public class ProjectDTO {
+public class ProjectDTO extends RepresentationModel<ProjectDTO> {
     private Long id;
     private String name;
     private String address;

@@ -1,27 +1,26 @@
-package com.workvaluation.workvaluation.project.dto;
+package com.workvaluation.workvaluation.renovationproject.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.hateoas.RepresentationModel;
 
 import java.util.Date;
 
 @Data
 @NoArgsConstructor
-public class ProjectDTO extends RepresentationModel<ProjectDTO> {
+public class RenovationProjectDTO {
     private Long id;
     private String name;
     private String address;
     private Date createDate;
 
-    public ProjectDTO(final Long id, final String name, final String address, final Date createDate) {
+    public RenovationProjectDTO(final Long id, final String name, final String address, final Date createDate) {
         this.id = id;
         this.name = name;
         this.address = address;
         this.createDate = createDate;
     }
 
-    public ProjectDTO(String name, String address) {
+    public RenovationProjectDTO(String name, String address) {
         this.name = name;
         this.address = address;
     }

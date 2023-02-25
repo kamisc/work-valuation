@@ -1,4 +1,4 @@
-package com.workvaluation.workvaluation;
+package com.sewerynkamil.workvaluation;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

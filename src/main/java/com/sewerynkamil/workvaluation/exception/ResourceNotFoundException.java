@@ -1,4 +1,4 @@
-package com.workvaluation.workvaluation.exception;
+package com.sewerynkamil.workvaluation.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

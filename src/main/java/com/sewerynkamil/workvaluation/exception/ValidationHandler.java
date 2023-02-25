@@ -1,4 +1,4 @@
-package com.workvaluation.workvaluation.exception;
+package com.sewerynkamil.workvaluation.exception;
 
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.beans.TypeMismatchException;

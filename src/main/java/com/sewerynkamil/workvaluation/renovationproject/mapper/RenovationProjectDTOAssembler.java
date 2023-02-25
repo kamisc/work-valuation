@@ -1,7 +1,7 @@
-package com.workvaluation.workvaluation.renovationproject.mapper;
+package com.sewerynkamil.workvaluation.renovationproject.mapper;
 
-import com.workvaluation.workvaluation.renovationproject.controller.RenovationProjectController;
-import com.workvaluation.workvaluation.renovationproject.dto.RenovationProjectDTO;
+import com.sewerynkamil.workvaluation.renovationproject.controller.RenovationProjectController;
+import com.sewerynkamil.workvaluation.renovationproject.dto.RenovationProjectDTO;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;

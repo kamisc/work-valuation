@@ -1,15 +1,15 @@
-package com.workvaluation.workvaluation.renovationproject.service;
+package com.sewerynkamil.workvaluation.renovationproject.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.jsonpatch.JsonPatch;
 import com.github.fge.jsonpatch.JsonPatchException;
-import com.workvaluation.workvaluation.exception.ResourceNotFoundException;
-import com.workvaluation.workvaluation.renovationproject.repository.RenovationProjectRepository;
-import com.workvaluation.workvaluation.renovationproject.domain.RenovationProjectEntity;
-import com.workvaluation.workvaluation.renovationproject.dto.RenovationProjectDTO;
-import com.workvaluation.workvaluation.renovationproject.mapper.RenovationProjectMapper;
+import com.sewerynkamil.workvaluation.exception.ResourceNotFoundException;
+import com.sewerynkamil.workvaluation.renovationproject.repository.RenovationProjectRepository;
+import com.sewerynkamil.workvaluation.renovationproject.domain.RenovationProjectEntity;
+import com.sewerynkamil.workvaluation.renovationproject.dto.RenovationProjectDTO;
+import com.sewerynkamil.workvaluation.renovationproject.mapper.RenovationProjectMapper;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -36,7 +36,7 @@ public class RenovationProjectServiceImpl implements RenovationProjectService {
 
     @Override
     public RenovationProjectDTO findRenovationProjectById(final Long id) throws ResourceNotFoundException {
-        log.info("Find project: {}", id);
+        log.info("Try to find project: {}", id);
         return renovationProjectRepository.findById(id)
                 .map(renovationProjectMapper::mapToProjectDTO)
                 .orElseThrow(ResourceNotFoundException::new);

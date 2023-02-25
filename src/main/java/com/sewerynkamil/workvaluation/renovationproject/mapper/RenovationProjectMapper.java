@@ -1,7 +1,7 @@
-package com.workvaluation.workvaluation.renovationproject.mapper;
+package com.sewerynkamil.workvaluation.renovationproject.mapper;
 
-import com.workvaluation.workvaluation.renovationproject.domain.RenovationProjectEntity;
-import com.workvaluation.workvaluation.renovationproject.dto.RenovationProjectDTO;
+import com.sewerynkamil.workvaluation.renovationproject.domain.RenovationProjectEntity;
+import com.sewerynkamil.workvaluation.renovationproject.dto.RenovationProjectDTO;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

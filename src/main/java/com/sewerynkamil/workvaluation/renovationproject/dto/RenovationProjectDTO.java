@@ -1,4 +1,4 @@
-package com.workvaluation.workvaluation.renovationproject.dto;
+package com.sewerynkamil.workvaluation.renovationproject.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,9 +14,8 @@ public class RenovationProjectDTO {
     private Date createDate;
 
     public RenovationProjectDTO(final Long id, final String name, final String address, final Date createDate) {
+        this(name, address);
         this.id = id;
-        this.name = name;
-        this.address = address;
         this.createDate = createDate;
     }
 

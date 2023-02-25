@@ -1,14 +1,14 @@
-package com.workvaluation.workvaluation.renovationproject.controller;
+package com.sewerynkamil.workvaluation.renovationproject.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.fge.jsonpatch.JsonPatch;
 import com.github.fge.jsonpatch.JsonPatchException;
-import com.workvaluation.workvaluation.exception.ResourceNotFoundException;
-import com.workvaluation.workvaluation.renovationproject.domain.RenovationProjectEntity;
-import com.workvaluation.workvaluation.renovationproject.dto.RenovationProjectDTO;
-import com.workvaluation.workvaluation.renovationproject.mapper.RenovationProjectDTOAssembler;
-import com.workvaluation.workvaluation.renovationproject.mapper.RenovationProjectEntityAssembler;
-import com.workvaluation.workvaluation.renovationproject.service.RenovationProjectService;
+import com.sewerynkamil.workvaluation.exception.ResourceNotFoundException;
+import com.sewerynkamil.workvaluation.renovationproject.domain.RenovationProjectEntity;
+import com.sewerynkamil.workvaluation.renovationproject.dto.RenovationProjectDTO;
+import com.sewerynkamil.workvaluation.renovationproject.mapper.RenovationProjectDTOAssembler;
+import com.sewerynkamil.workvaluation.renovationproject.mapper.RenovationProjectEntityAssembler;
+import com.sewerynkamil.workvaluation.renovationproject.service.RenovationProjectService;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;

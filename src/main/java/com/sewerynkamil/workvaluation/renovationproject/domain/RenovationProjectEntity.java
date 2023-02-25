@@ -1,4 +1,4 @@
-package com.workvaluation.workvaluation.renovationproject.domain;
+package com.sewerynkamil.workvaluation.renovationproject.domain;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -20,9 +20,8 @@ public class RenovationProjectEntity {
     private Date createDate;
 
     public RenovationProjectEntity(final String name, final String address, final Long id) {
+        this(name, address);
         this.id = id;
-        this.name = name;
-        this.address = address;
         this.createDate = new Date();
     }
 

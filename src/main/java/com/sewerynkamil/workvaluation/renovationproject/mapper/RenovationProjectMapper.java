@@ -1,6 +1,6 @@
 package com.sewerynkamil.workvaluation.renovationproject.mapper;
 
-import com.sewerynkamil.workvaluation.renovationproject.domain.RenovationProjectEntity;
+import com.sewerynkamil.workvaluation.renovationproject.domain.RenovationProject;
 import com.sewerynkamil.workvaluation.renovationproject.dto.RenovationProjectDTO;
 import org.springframework.stereotype.Component;
 
@@ -10,7 +10,7 @@ import static java.util.stream.Collectors.toList;
 
 @Component
 public class RenovationProjectMapper {
-    public List<RenovationProjectDTO> mapToProjectDTOList(final List<RenovationProjectEntity> renovationProjectList) {
+    public List<RenovationProjectDTO> mapToRenovationProjectDTOList(final List<RenovationProject> renovationProjectList) {
         return renovationProjectList.stream()
                 .map(project -> new RenovationProjectDTO(
                         project.getId(),
@@ -20,12 +20,12 @@ public class RenovationProjectMapper {
                 .collect(toList());
     }
 
-    public RenovationProjectDTO mapToProjectDTO(final RenovationProjectEntity renovationProject) {
+    public RenovationProjectDTO mapToRenovationProjectDTO(final RenovationProject renovationProject) {
         return new RenovationProjectDTO(
                 renovationProject.getId(), renovationProject.getName(), renovationProject.getAddress(), renovationProject.getCreateDate());
     }
 
-    public RenovationProjectEntity mapToProject(final RenovationProjectDTO renovationProject) {
-        return new RenovationProjectEntity(renovationProject.getName(), renovationProject.getAddress(), renovationProject.getId());
+    public RenovationProject mapToRenovationProject(final RenovationProjectDTO renovationProject) {
+        return new RenovationProject(renovationProject.getName(), renovationProject.getAddress(), renovationProject.getId());
     }
 }

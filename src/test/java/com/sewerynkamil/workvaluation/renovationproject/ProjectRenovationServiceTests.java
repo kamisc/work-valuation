@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.jsonpatch.JsonPatch;
 import com.github.fge.jsonpatch.JsonPatchException;
 import com.sewerynkamil.workvaluation.exception.ResourceNotFoundException;
-import com.sewerynkamil.workvaluation.renovationproject.domain.RenovationProjectEntity;
+import com.sewerynkamil.workvaluation.renovationproject.domain.RenovationProject;
 import com.sewerynkamil.workvaluation.renovationproject.dto.RenovationProjectDTO;
 import com.sewerynkamil.workvaluation.renovationproject.mapper.RenovationProjectMapper;
 import com.sewerynkamil.workvaluation.renovationproject.repository.RenovationProjectRepository;
@@ -32,7 +32,7 @@ class ProjectRenovationServiceTests {
     private RenovationProjectMapper renovationProjectMapper;
     private RenovationProjectServiceImpl renovationProjectService;
 
-    RenovationProjectEntity renovationProjectEntity1, renovationProjectEntity2, renovationProjectEntity3;
+    RenovationProject renovationProject1, renovationProject2, renovationProject3;
     RenovationProjectDTO renovationProjectDTO1, renovationProjectDTO2, renovationProjectDTO3;
 
     @BeforeEach
@@ -44,9 +44,9 @@ class ProjectRenovationServiceTests {
 
     @BeforeAll
     void setUpData() {
-        renovationProjectEntity1 = new RenovationProjectEntity("Project 1", "Address 1", 1L);
-        renovationProjectEntity2 = new RenovationProjectEntity("Project 2", "Address 2", 2L);
-        renovationProjectEntity3 = new RenovationProjectEntity("Project 3", "Address 3", 3L);
+        renovationProject1 = new RenovationProject("Project 1", "Address 1", 1L);
+        renovationProject2 = new RenovationProject("Project 2", "Address 2", 2L);
+        renovationProject3 = new RenovationProject("Project 3", "Address 3", 3L);
 
         renovationProjectDTO1 = new RenovationProjectDTO(1L, "Project 1", "Address 1", new Date());
         renovationProjectDTO2 = new RenovationProjectDTO(2L, "Project 2", "Address 2", new Date());
@@ -56,12 +56,12 @@ class ProjectRenovationServiceTests {
     @Test
     void testGetAllRenovationProjectsWithResults() {
         // Given
-        final List<RenovationProjectEntity> renovationProjectList = Arrays.asList(renovationProjectEntity1, renovationProjectEntity2);
+        final List<RenovationProject> renovationProjectList = Arrays.asList(renovationProject1, renovationProject2);
         final List<RenovationProjectDTO> renovationProjectDTOList = Arrays.asList(renovationProjectDTO1, renovationProjectDTO2);
 
         // When
         when(renovationProjectRepository.findAll()).thenReturn(renovationProjectList);
-        when(renovationProjectMapper.mapToProjectDTOList(renovationProjectList)).thenReturn(renovationProjectDTOList);
+        when(renovationProjectMapper.mapToRenovationProjectDTOList(renovationProjectList)).thenReturn(renovationProjectDTOList);
 
         final List<RenovationProjectDTO> expectedRenovationProjectDTOList = renovationProjectService.getAllRenovationProjects();
 
@@ -75,11 +75,11 @@ class ProjectRenovationServiceTests {
     @Test
     void testGetAllRenovationProjectsWithoutResults() {
         // Given
-        final List<RenovationProjectEntity> renovationProjectList = new ArrayList<>();
+        final List<RenovationProject> renovationProjectList = new ArrayList<>();
         final List<RenovationProjectDTO> renovationProjectDTOList = new ArrayList<>();
 
         when(renovationProjectRepository.findAll()).thenReturn(renovationProjectList);
-        when(renovationProjectMapper.mapToProjectDTOList(renovationProjectList)).thenReturn(renovationProjectDTOList);
+        when(renovationProjectMapper.mapToRenovationProjectDTOList(renovationProjectList)).thenReturn(renovationProjectDTOList);
 
         // When
         final List<RenovationProjectDTO> expectedRenovationProjectDTOList = renovationProjectService.getAllRenovationProjects();
@@ -93,8 +93,8 @@ class ProjectRenovationServiceTests {
         // Given
         final Long projectId = 3L;
 
-        when(renovationProjectRepository.findById(projectId)).thenReturn(Optional.ofNullable(renovationProjectEntity3));
-        when(renovationProjectMapper.mapToProjectDTO(Optional.of(renovationProjectEntity3).get())).thenReturn(renovationProjectDTO3);
+        when(renovationProjectRepository.findById(projectId)).thenReturn(Optional.ofNullable(renovationProject3));
+        when(renovationProjectMapper.mapToRenovationProjectDTO(Optional.of(renovationProject3).get())).thenReturn(renovationProjectDTO3);
 
         // When
         final RenovationProjectDTO expectedRenovationProjectDTO = renovationProjectService.findRenovationProjectById(projectId);
@@ -118,16 +118,16 @@ class ProjectRenovationServiceTests {
     void testAddRenovationProject() {
         // Given
         final RenovationProjectDTO renovationProjectDTO = new RenovationProjectDTO("Project 4", "Address 4");
-        final RenovationProjectEntity renovationProjectEntity = new RenovationProjectEntity("Project 4", "Address 4", 4L);
+        final RenovationProject renovationProject = new RenovationProject("Project 4", "Address 4", 4L);
 
-        when(renovationProjectMapper.mapToProject(renovationProjectDTO)).thenReturn(renovationProjectEntity);
-        when(renovationProjectRepository.save(renovationProjectEntity)).thenReturn(renovationProjectEntity);
+        when(renovationProjectMapper.mapToRenovationProject(renovationProjectDTO)).thenReturn(renovationProject);
+        when(renovationProjectRepository.save(renovationProject)).thenReturn(renovationProject);
 
         // When
-        final RenovationProjectEntity expectedRenovationProject = renovationProjectService.addRenovationProject(renovationProjectDTO);
+        final RenovationProject expectedRenovationProject = renovationProjectService.addRenovationProject(renovationProjectDTO);
 
         // Then
-       assertThat(expectedRenovationProject).isEqualTo(renovationProjectEntity);
+       assertThat(expectedRenovationProject).isEqualTo(renovationProject);
     }
 
     @Test
@@ -135,13 +135,13 @@ class ProjectRenovationServiceTests {
         // Given
         final Long projectId = 1L;
         final RenovationProjectDTO renovationProjectDTO = new RenovationProjectDTO("Project 5", "Address 5");
-        final RenovationProjectEntity renovationProjectUpdated = new RenovationProjectEntity("Project 5", "Address 5", 5L);
+        final RenovationProject renovationProjectUpdated = new RenovationProject("Project 5", "Address 5", 5L);
 
-        when(renovationProjectRepository.findById(projectId)).thenReturn(Optional.of(renovationProjectEntity1));
-        when(renovationProjectRepository.save(renovationProjectEntity1)).thenReturn(renovationProjectUpdated);
+        when(renovationProjectRepository.findById(projectId)).thenReturn(Optional.of(renovationProject1));
+        when(renovationProjectRepository.save(renovationProject1)).thenReturn(renovationProjectUpdated);
 
         // When
-        final RenovationProjectEntity expectedRenovationProject = renovationProjectService.updateRenovationProject(renovationProjectDTO, projectId);
+        final RenovationProject expectedRenovationProject = renovationProjectService.updateRenovationProject(renovationProjectDTO, projectId);
 
         // Then
         assertThat(expectedRenovationProject).isEqualTo(renovationProjectUpdated);
@@ -152,13 +152,13 @@ class ProjectRenovationServiceTests {
         // Given
         final Long projectId = 6L;
         final RenovationProjectDTO renovationProjectDTO = new RenovationProjectDTO("Project 6", "Address 6");
-        final RenovationProjectEntity renovationProjectUpdated = new RenovationProjectEntity("Project 6", "Address 6", 6L);
+        final RenovationProject renovationProjectUpdated = new RenovationProject("Project 6", "Address 6", 6L);
 
-        when(renovationProjectMapper.mapToProject(renovationProjectDTO)).thenReturn(renovationProjectUpdated);
+        when(renovationProjectMapper.mapToRenovationProject(renovationProjectDTO)).thenReturn(renovationProjectUpdated);
         when(renovationProjectRepository.save(renovationProjectUpdated)).thenReturn(renovationProjectUpdated);
 
         // When
-        final RenovationProjectEntity expectedRenovationProject = renovationProjectService.updateRenovationProject(renovationProjectDTO, projectId);
+        final RenovationProject expectedRenovationProject = renovationProjectService.updateRenovationProject(renovationProjectDTO, projectId);
 
         // Then
         assertThat(expectedRenovationProject).isEqualTo(renovationProjectUpdated);
@@ -169,20 +169,20 @@ class ProjectRenovationServiceTests {
         // Given
         final ObjectMapper objectMapper = new ObjectMapper();
         final Long projectId = 1L;
-        final RenovationProjectEntity oldProject = new RenovationProjectEntity("Project 7", "Address 7", 7L);
-        final RenovationProjectEntity updatedProject = new RenovationProjectEntity("Project 8", "Address 7", 7L);
+        final RenovationProject oldProject = new RenovationProject("Project 7", "Address 7", 7L);
+        final RenovationProject updatedProject = new RenovationProject("Project 8", "Address 7", 7L);
         RenovationProjectDTO updatedProjectDTO = new RenovationProjectDTO(7L, "Project 7", "Address 7", oldProject.getCreateDate());
         JsonPatch patch = JsonPatch.fromJson(objectMapper.readTree("[{\"op\":\"replace\",\"path\":\"/name\",\"value\":\"Project 8\"}]"));
         JsonNode patchedProject = patch.apply(objectMapper.convertValue(updatedProjectDTO, JsonNode.class));
         updatedProjectDTO = objectMapper.treeToValue(patchedProject, RenovationProjectDTO.class);
 
         Mockito.when(renovationProjectRepository.findById(projectId)).thenReturn(Optional.of(oldProject));
-        Mockito.when(renovationProjectMapper.mapToProjectDTO(oldProject)).thenReturn(updatedProjectDTO);
-        Mockito.when(renovationProjectMapper.mapToProject(updatedProjectDTO)).thenReturn(updatedProject);
+        Mockito.when(renovationProjectMapper.mapToRenovationProjectDTO(oldProject)).thenReturn(updatedProjectDTO);
+        Mockito.when(renovationProjectMapper.mapToRenovationProject(updatedProjectDTO)).thenReturn(updatedProject);
         Mockito.when(renovationProjectRepository.save(updatedProject)).thenReturn(updatedProject);
 
         // When
-        RenovationProjectEntity expectedRenovationProject = renovationProjectService.partialUpdateRenovationProject(patch, projectId);
+        RenovationProject expectedRenovationProject = renovationProjectService.partialUpdateRenovationProject(patch, projectId);
 
         // Then
         assertThat(expectedRenovationProject.getName()).isEqualTo("Project 8");
@@ -193,7 +193,7 @@ class ProjectRenovationServiceTests {
     void testDeleteRenovationProject() {
         // Given
         final Long projectId = 9L;
-        final RenovationProjectEntity deletedProject = new RenovationProjectEntity("Project 9", "Address 9", 9L);
+        final RenovationProject deletedProject = new RenovationProject("Project 9", "Address 9", 9L);
 
         // When
         renovationProjectService.deleteRenovationProject(projectId);

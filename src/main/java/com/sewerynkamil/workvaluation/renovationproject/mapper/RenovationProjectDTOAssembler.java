@@ -14,7 +14,7 @@ public class RenovationProjectDTOAssembler implements RepresentationModelAssembl
     @Override
     public EntityModel<RenovationProjectDTO> toModel(RenovationProjectDTO renovationProject) {
         return EntityModel.of(renovationProject,
-                linkTo(methodOn(RenovationProjectController.class).findProjectById(renovationProject.getId())).withSelfRel(),
-                linkTo(methodOn(RenovationProjectController.class).getAllProjects()).withRel("renovation_projects"));
+                linkTo(methodOn(RenovationProjectController.class).findRenovationProjectById(renovationProject.getId())).withSelfRel(),
+                linkTo(methodOn(RenovationProjectController.class).getAllRenovationProjects()).withRel("renovation_projects"));
     }
 }

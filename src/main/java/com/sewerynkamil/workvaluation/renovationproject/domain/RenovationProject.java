@@ -10,7 +10,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Entity
 @Table(name = "RENOVATION_PROJECT")
-public class RenovationProjectEntity {
+public class RenovationProject {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,13 +19,13 @@ public class RenovationProjectEntity {
     private String address;
     private Date createDate;
 
-    public RenovationProjectEntity(final String name, final String address, final Long id) {
+    public RenovationProject(final String name, final String address, final Long id) {
         this(name, address);
         this.id = id;
         this.createDate = new Date();
     }
 
-    public RenovationProjectEntity(final String name, final String address) {
+    public RenovationProject(final String name, final String address) {
         this.name = name;
         this.createDate = new Date();
         this.address = address;

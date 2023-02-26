@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.fge.jsonpatch.JsonPatch;
 import com.github.fge.jsonpatch.JsonPatchException;
 import com.sewerynkamil.workvaluation.exception.ResourceNotFoundException;
-import com.sewerynkamil.workvaluation.renovationproject.domain.RenovationProjectEntity;
+import com.sewerynkamil.workvaluation.renovationproject.domain.RenovationProject;
 import com.sewerynkamil.workvaluation.renovationproject.dto.RenovationProjectDTO;
 import com.sewerynkamil.workvaluation.renovationproject.mapper.RenovationProjectDTOAssembler;
 import com.sewerynkamil.workvaluation.renovationproject.mapper.RenovationProjectEntityAssembler;
@@ -24,63 +24,68 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RestController
 @RequestMapping("/projects")
 public class RenovationProjectController {
-    private final RenovationProjectService projectService;
+    private final RenovationProjectService renovationProjectService;
     private final RenovationProjectDTOAssembler renovationProjectDTOAssembler;
     private final RenovationProjectEntityAssembler renovationProjectEntityAssembler;
 
     public RenovationProjectController(
-            final RenovationProjectService projectService,
+            final RenovationProjectService renovationProjectService,
             final RenovationProjectDTOAssembler renovationProjectDTOAssembler,
             final RenovationProjectEntityAssembler renovationProjectEntityAssembler) {
-        this.projectService = projectService;
+        this.renovationProjectService = renovationProjectService;
         this.renovationProjectDTOAssembler = renovationProjectDTOAssembler;
         this.renovationProjectEntityAssembler = renovationProjectEntityAssembler;
     }
 
     @GetMapping
-    public ResponseEntity<CollectionModel<EntityModel<RenovationProjectDTO>>> getAllProjects() {
-        List<EntityModel<RenovationProjectDTO>> projects = projectService.getAllRenovationProjects().stream()
+    public ResponseEntity<CollectionModel<EntityModel<RenovationProjectDTO>>> getAllRenovationProjects() {
+        List<EntityModel<RenovationProjectDTO>> renovationProjects = renovationProjectService.getAllRenovationProjects().stream()
                 .map(renovationProjectDTOAssembler::toModel)
                 .collect(toList());
 
-        return ResponseEntity.ok(CollectionModel.of(projects, linkTo(methodOn(RenovationProjectController.class).getAllProjects()).withSelfRel()));
+        return ResponseEntity.ok(CollectionModel.of(renovationProjects, linkTo(methodOn(RenovationProjectController.class).getAllRenovationProjects()).withSelfRel()));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EntityModel<RenovationProjectDTO>> findProjectById(@PathVariable Long id) throws ResourceNotFoundException {
-        return ResponseEntity.ok(renovationProjectDTOAssembler.toModel(projectService.findRenovationProjectById(id)));
+    public ResponseEntity<EntityModel<RenovationProjectDTO>> findRenovationProjectById(@PathVariable Long id) throws ResourceNotFoundException {
+        return ResponseEntity.ok(renovationProjectDTOAssembler.toModel(renovationProjectService.findRenovationProjectById(id)));
     }
 
     @PostMapping
-    public ResponseEntity<EntityModel<RenovationProjectEntity>> addProject(@RequestBody RenovationProjectDTO renovationProjectDTO) {
-        EntityModel<RenovationProjectEntity> project = renovationProjectEntityAssembler.toModel(projectService.addRenovationProject(renovationProjectDTO));
+    public ResponseEntity<EntityModel<RenovationProject>> addRenovationProject(@RequestBody RenovationProjectDTO renovationProjectDTO) {
+        EntityModel<RenovationProject> renovationProject = renovationProjectEntityAssembler.toModel(
+                renovationProjectService.addRenovationProject(renovationProjectDTO));
 
         return ResponseEntity
-                .created(project.getRequiredLink(IanaLinkRelations.SELF).toUri())
-                .body(project);
+                .created(renovationProject.getRequiredLink(IanaLinkRelations.SELF).toUri())
+                .body(renovationProject);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<EntityModel<RenovationProjectEntity>> updateProject(@RequestBody RenovationProjectDTO renovationProjectDTO, @PathVariable("id") Long projectId) throws ResourceNotFoundException {
-        EntityModel<RenovationProjectEntity> project = renovationProjectEntityAssembler.toModel(projectService.updateRenovationProject(renovationProjectDTO, projectId));
+    public ResponseEntity<EntityModel<RenovationProject>> updateProject(
+            @RequestBody RenovationProjectDTO renovationProjectDTO, @PathVariable("id") Long projectId) throws ResourceNotFoundException {
+        final EntityModel<RenovationProject> renovationProject = renovationProjectEntityAssembler.toModel(
+                renovationProjectService.updateRenovationProject(renovationProjectDTO, projectId));
 
         return ResponseEntity.
-                created(project.getRequiredLink(IanaLinkRelations.SELF).toUri())
-                .body(project);
+                created(renovationProject.getRequiredLink(IanaLinkRelations.SELF).toUri())
+                .body(renovationProject);
     }
 
     @PatchMapping(value = "/{id}", consumes = "application/json-patch+json")
-    public ResponseEntity<EntityModel<RenovationProjectEntity>> partialUpdateProject(@RequestBody JsonPatch jsonPatch, @PathVariable("id") Long projectId) throws ResourceNotFoundException, JsonPatchException, JsonProcessingException {
-        EntityModel<RenovationProjectEntity> project = renovationProjectEntityAssembler.toModel(projectService.partialUpdateRenovationProject(jsonPatch, projectId));
+    public ResponseEntity<EntityModel<RenovationProject>> partialUpdateRenovationProject(
+            @RequestBody JsonPatch jsonPatch, @PathVariable("id") Long projectId) throws ResourceNotFoundException, JsonPatchException, JsonProcessingException {
+        final EntityModel<RenovationProject> renovationProject = renovationProjectEntityAssembler.toModel(
+                renovationProjectService.partialUpdateRenovationProject(jsonPatch, projectId));
 
         return ResponseEntity
-                .created(project.getRequiredLink(IanaLinkRelations.SELF).toUri())
-                .body(project);
+                .created(renovationProject.getRequiredLink(IanaLinkRelations.SELF).toUri())
+                .body(renovationProject);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProject(@PathVariable Long id) {
-        projectService.deleteRenovationProject(id);
+    public ResponseEntity<Void> deleteRenovationProject(@PathVariable Long id) {
+        renovationProjectService.deleteRenovationProject(id);
 
         return ResponseEntity.noContent().build();
     }

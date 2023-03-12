@@ -1,4 +1,4 @@
-package com.sewerynkamil.workvaluation.renovationproject.domain;
+package com.sewerynkamil.workvaluation.renovationwork.domain;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -9,20 +9,17 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name = "RENOVATION_PROJECT")
-public class RenovationProject {
+@Table(name = "RENOVATION_WORK_TYPE")
+public class RenovationWorkType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-
-    private String address;
     private Date createDate;
 
-    public RenovationProject(final String name, final String address, final Long id) {
+    public RenovationWorkType(final Long id, final String name) {
         this.id = id;
         this.name = name;
-        this.address = address;
         this.createDate = new Date();
     }
 }

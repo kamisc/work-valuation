@@ -27,7 +27,7 @@ import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class ProjectRenovationServiceTests {
+class RenovationProjectServiceTests {
     private RenovationProjectRepository renovationProjectRepository;
     private RenovationProjectMapper renovationProjectMapper;
     private RenovationProjectServiceImpl renovationProjectService;

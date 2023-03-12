@@ -45,11 +45,6 @@ public class RenovationWorkTypeServiceTests {
     }
 
     @Test
-    void testPartialUpdateRenovationWork() {
-
-    }
-
-    @Test
     void testDeleteRenovationWork() {
 
     }
